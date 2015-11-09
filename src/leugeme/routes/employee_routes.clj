@@ -10,12 +10,8 @@
 (defn show-employee-jobs [employeeid]
   (let [employee (db/get-employee {:id employeeid})
         jobs (db/get-employee-jobs {:employeeid employeeid})]
-    (layout/render "employee_jobs.html" {:jobs jobs :employee (first employee)})))
-
-(defn show-employee-share-jobs [employeeid]
-  (let [employee (db/get-employee {:id employeeid})
-        jobs (db/get-available-jobs-by-employee {:employeeid employeeid})]
-    (layout/render "employee_job_listing.html" {:jobs (group-by :employer_name jobs) :employee (first employee)})))
+    (println "JOB " + jobs)
+    (layout/render "employee_jobs.html" {:jobs (group-by :employer_name jobs) :employee (first employee)})))
 
 (defn employee-share-job [employeeid jobid]
   (let [employerjobs (db/get-available-jobs-by-employee {:employeeid employeeid})]

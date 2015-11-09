@@ -16,9 +16,11 @@ VALUES (:employeeid, :userid)
 
 -- name: get-employee-jobs
 -- get all the jobs an employee has shared
-SELECT j.*, ej.share_date FROM jobs j
-join employee_jobs ej on ej.job_id = j.id
-where ej.employee_id = :employeeid
+SELECT j.*, ej.share_date, emp.name as employer_name FROM jobs j
+inner join employee_employer ee on ee.employer_id = j.employer_id
+inner join employers emp on ee.employer_id = emp.id
+inner join employee_jobs ej on ej.employee_id = ee.employee_id
+where ee.employee_id = :employeeid
 
 -- name: get-available-jobs-by-employee 
 -- get all the jobs by employer
@@ -41,7 +43,7 @@ where ef.user_id = :userid
 
 -- name: get-user
 -- get the user trying to login
-SELECT * FROM users
+SELECT * FROM employees
 where userid = :userid and password = :password
 
 -- name: find-all-employees-by-name-or-userid

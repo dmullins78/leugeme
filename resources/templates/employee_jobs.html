@@ -13,9 +13,9 @@
         <li>
             <form action="/employee/{{employee.id}}/job/{{job.id}}/unshare" method="POST">
               {% csrf-field %}
-              {{job.name}}
-              {{job.description}}
-              {{job.share_date}}
+              {{job.name}}<br/>
+              {{job.description}}<br/>
+              {{job.share_date}}<br/>
               <input type="submit" value="Apply" class="btn btn-default"/>
             </form>
         </li>

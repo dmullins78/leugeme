@@ -18,4 +18,4 @@
 (defn make-user 
   "I make test users"
   [name password]
-  (j/insert! test-db :users {:userid name :password password :name name} ))
+  (j/insert! test-db :employees {:userid name :password password :name name} ))

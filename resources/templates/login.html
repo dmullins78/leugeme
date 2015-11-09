@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+{% if invalid %}
+  <h2>Invalid Login</h2>
+{% endif %}
+
+  <p>I log people in!</p>
+  <form action="/login" method="post">
+    {% csrf-field %}
+    <input type="text" name="id" value="tom"/> 
+    <input type="password" name="password" value="martin"/> 
+    <input type="submit" value="Login"/>
+  </form>
+{% endblock %}

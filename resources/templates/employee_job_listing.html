@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{employee.first_name}} {{employee.last_name}}</h1>
+
+<p>Check out these sweet jobs {{jobs}}</p>
+
+{% for employer,jobs in jobs %}
+<ul>
+  <li>
+    Jobbiee {{employer}}
+    <ul>
+      {% for job in jobs %}
+        <li>
+          {% if job.share_date %}
+            <form action="/employee/{{employee.id}}/job/{{job.id}}/unshare" method="POST">
+              {% csrf-field %}
+              {{job.name}}
+              {{job.description}}
+              {{job.share_date}}
+              <input type="submit" value="Unshare" class="btn btn-default"/>
+            </form>
+        {% else %}
+            <form action="/employee/{{employee.id}}/job/{{job.id}}/share" method="POST">
+              {% csrf-field %}
+              {{job.name}}
+              {{job.description}}
+              <input type="submit" value="Share" class="btn btn-default"/>
+            </form>
+        {% endif %}
+      {% endfor %}
+  </li>
+</ul>
+{% endfor %}
+
+{% endblock %}

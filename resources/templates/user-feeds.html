@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block content %}
+
+<a href="/employees"><h2>Find some people to follow!</h2></a>
+
+<p>Following {{ idols|count}} people</p>
+  {% for idol in idols %}
+  HI {{idol.first_name}} 
+    <a href="/employee/{{idol.id}}/jobs">See Jobs</a><br/> 
+  {% endfor %}
+{% endblock %}

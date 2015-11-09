@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block content %}
+
+<form action="/employees" method="post">
+  {% csrf-field %}
+  <input type="text" name="search" placeholder="Search"/>
+  <input type="submit" value="Submit"/>
+</form>
+
+{% for employee in employees %}
+  <h4>{{employee.first_name}}</h4>
+  <form action="/employee/{{employee.id}}/follow" method="post">
+    {% csrf-field %}
+    <input type="submit" value="Follow"/>
+  </form>
+{% endfor %}
+
+{% endblock %}

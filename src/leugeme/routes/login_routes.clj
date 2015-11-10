@@ -23,7 +23,7 @@
   (let [userid (:id (:user session))
     employee (db/get-employee {:id userid})
     jobs (db/get-available-jobs-by-employee {:employeeid userid})]
-    (layout/render "employee_job_listing.html" {:jobs (group-by :employer_name jobs) :employee (:user session)})))
+    (layout/render "my_job_listing.html" {:jobs (group-by :employer_name jobs) :employee (:user session)})))
 
 (defroutes login-routes
   (GET "/login" [] (show-login))

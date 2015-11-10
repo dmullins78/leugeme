@@ -10,7 +10,6 @@
 (defn show-employee-jobs [employeeid]
   (let [employee (db/get-employee {:id employeeid})
         jobs (db/get-employee-jobs {:employeeid employeeid})]
-    (println "JOB " + jobs)
     (layout/render "employee_jobs.html" {:jobs (group-by :employer_name jobs) :employee (first employee)})))
 
 (defn employee-share-job [employeeid jobid]
@@ -36,9 +35,19 @@
   (let [employees (db/find-all-employees-by-name-or-userid {:search (str "%" search "%")})]
     (layout/render "all-employees.html" {:employees employees})))
 
+(defn show-employee-share-jobs [employeeid]
+  (let [ employee (first (db/get-employee {:id employeeid}))
+        jobs (db/get-available-jobs-by-employee {:employeeid employeeid})]
+    (layout/render "employee_job_listing.html" {:jobs (group-by :employer_name jobs) :employee employee})))
+
+(defn show-job-details [employeeid jobid]
+  (let [job (db/get-job-by-id {:id jobid})]
+    (layout/render "job_details.html" {:job (first job) :employeeid employeeid})))
+
 (defroutes employee-routes
   (POST "/employee/:employeeid/job/:jobid/share" [employeeid jobid] (employee-share-job (Integer. employeeid) (Integer. jobid)))
   (POST "/employee/:employeeid/job/:jobid/unshare" [employeeid jobid] (employee-unshare-job (Integer. employeeid) (Integer. jobid)))
+  (GET "/employee/:employeeid/job/:jobid" [employeeid jobid] (show-job-details (Integer. employeeid) (Integer. jobid)))
   (POST "/employee/:employeeid/follow" [employeeid :as req] (employee-follow (Integer. employeeid) req ))
   (GET "/employee/:id/jobs" [id] (show-employee-share-jobs (Integer. id)))
   (GET "/employee/:id" [id] (show-employee-jobs (Integer. id)))

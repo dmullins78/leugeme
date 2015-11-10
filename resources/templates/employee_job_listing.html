@@ -11,22 +11,13 @@
     <ul>
       {% for job in jobs %}
         <li>
-          {% if job.share_date %}
-            <form action="/employee/{{employee.id}}/job/{{job.id}}/unshare" method="POST">
               {% csrf-field %}
               {{job.name}}
               {{job.description}}
               {{job.share_date}}
-              <input type="submit" value="Unshare" class="btn btn-default"/>
+              <a href="/employee/{{employee.id}}/job/{{job.id}}">Details</a>
             </form>
-        {% else %}
-            <form action="/employee/{{employee.id}}/job/{{job.id}}/share" method="POST">
-              {% csrf-field %}
-              {{job.name}}
-              {{job.description}}
-              <input type="submit" value="Share" class="btn btn-default"/>
-            </form>
-        {% endif %}
+        </li>
       {% endfor %}
   </li>
 </ul>

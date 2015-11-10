@@ -19,7 +19,7 @@ VALUES (:employeeid, :userid)
 SELECT j.*, ej.share_date, emp.name as employer_name FROM jobs j
 inner join employee_employer ee on ee.employer_id = j.employer_id
 inner join employers emp on ee.employer_id = emp.id
-inner join employee_jobs ej on ej.employee_id = ee.employee_id
+inner join employee_jobs ej on ej.employee_id = ee.employee_id and j.id = ej.job_id
 where ee.employee_id = :employeeid
 
 -- name: get-available-jobs-by-employee 
@@ -27,8 +27,12 @@ where ee.employee_id = :employeeid
 SELECT j.*, ej.share_date, emp.name as employer_name FROM jobs j
 inner join employee_employer ee on ee.employer_id = j.employer_id
 inner join employers emp on ee.employer_id = emp.id
-left join employee_jobs ej on ej.employee_id = ee.employee_id
+left join employee_jobs ej on ej.employee_id = ee.employee_id and j.id = ej.job_id 
 where ee.employee_id = :employeeid
+
+-- name: get-job-by-id
+-- get the job details
+SELECT * FROM jobs where id = :id
 
 -- name: get-employee
 -- get the employee by id

@@ -16,8 +16,8 @@
       (layout/render "login.html" {:invalid true}))))
 
 (defn show-home [{session :session}]
-  (let [idols (db/get-my-idols {:userid (:id (:user session))})]
-    (layout/render "user-feeds.html" {:idols idols})))
+  (let [all-jobs (db/get-all-idol-jobs {:userid (:id (:user session))})]
+    (layout/render "user-feeds.html" {:jobs all-jobs :user (:user session)})))
 
 (defn manage-my-jobs [{session :session}]
   (let [userid (:id (:user session))

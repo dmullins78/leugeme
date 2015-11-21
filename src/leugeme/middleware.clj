@@ -1,5 +1,5 @@
 (ns leugeme.middleware
-  (:require [leugeme.layout :refer [*app-context* error-page]]
+  (:require [leugeme.layout :refer [*app-context* *current-user* error-page]]
             [taoensso.timbre :as timbre]
             [environ.core :refer [env]]
             [selmer.middleware :refer [wrap-error-page]]
@@ -7,7 +7,6 @@
             [ring.middleware.flash :refer [wrap-flash]]
             [immutant.web.middleware :refer [wrap-session]]
             [ring.middleware.reload :as reload]
-            [ring.middleware.webjars :refer [wrap-webjars]]
             [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
             [ring.middleware.anti-forgery :refer [wrap-anti-forgery]]
             [ring.middleware.format :refer [wrap-restful-format]])
@@ -57,12 +56,17 @@
 (defn wrap-formats [handler]
   (wrap-restful-format handler {:formats [:json-kw :transit-json :transit-msgpack]}))
 
+(defn wrap-session-user [handler]
+  (fn  [request]
+    (binding [*current-user* (-> request :session :user)]
+        (handler request))))
+
 (defn wrap-base [handler]
   (-> handler
       wrap-dev
       wrap-formats
-      wrap-webjars
       wrap-flash
+      wrap-session-user
       (wrap-session {:cookie-attrs {:http-only true}})
       (wrap-defaults
         (-> site-defaults

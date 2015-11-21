@@ -9,6 +9,8 @@
 
 
 (declare ^:dynamic *app-context*)
+(declare ^:dynamic *current-user*)
+
 (parser/set-resource-path!  (clojure.java.io/resource "templates"))
 (parser/add-tag! :csrf-field (fn [_ _] (anti-forgery-field)))
 (filters/add-filter! :markdown (fn [content] [:safe (md-to-html-string content)]))
@@ -23,6 +25,8 @@
         (assoc params
           :page template
           :dev (env :dev)
+          :current-user *current-user*
+          ;:current-user {:first_name "FOEOE" :last_name "BEFEFE"}
           :csrf-token *anti-forgery-token*
           :servlet-context *app-context*)))
     "text/html; charset=utf-8"))

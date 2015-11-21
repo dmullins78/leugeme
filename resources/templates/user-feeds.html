@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
 
-<a href="/jobs"><h2>Manage my shared jobs!</h2></a>
-
-<a href="/employees"><h2>Find some people to follow!</h2></a>
-
-<p>Following {{ idols|count}} people</p>
-  {% for idol in idols %}
-  HI {{idol.first_name}} 
-    <a href="/employee/{{idol.id}}/jobs">See Jobs</a><br/> 
+<div class="feeds">
+  {% for job in jobs %}
+  <div class="idol">
+    <div>Work with {{job.first_name}} {{job.last_name}} at {{job.employer}}</div>
+    <h3>{{job.name}}</h3>
+    <div class="jobdescription">{{job.description}}</div>
+    <div class="actions">
+      <a class="adjust">More Details</a>
+      <a href="/employee/{{job.employee}}/job/{{job.id}}">Pursue</a>
+    </div>
+  </div>
   {% endfor %}
+</div>
+
 {% endblock %}

@@ -1,35 +1,28 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>{{employee.first_name}} {{employee.last_name}}</h1>
 
-<p>Check out these sweet jobs {{jobs}}</p>
-
-{% for employer,jobs in jobs %}
-<ul>
-  <li>
-    Jobbiee {{employer}}
-    <ul>
-      {% for job in jobs %}
-        <li>
-          {% if job.share_date %}
-            <form action="/employee/{{employee.id}}/job/{{job.id}}/unshare" method="POST">
-              {% csrf-field %}
-              {{job.name}}
-              {{job.description}}
-              {{job.share_date}}
-              <input type="submit" value="Unshare" class="btn btn-default"/>
-            </form>
+<div class="feeds">
+{% for employer,companyjobs in jobs %}
+  {% for job in companyjobs %}
+    <div class="idol">
+      <h3>{{job.name}} at {{employer}}</h3>
+      <div class="jobdescription">{{job.description}}</div>
+      <div class="actions">
+        <a class="adjust">More Details</a>
+        {% if job.share_date %}
+          <form action="/employee/{{employee.id}}/job/{{job.id}}/unshare" method="POST">
+            {% csrf-field %}
+            <input type="submit" value="Unshare" class="btn btn-link"/>
+          </form>
         {% else %}
-            <form action="/employee/{{employee.id}}/job/{{job.id}}/share" method="POST">
-              {% csrf-field %}
-              {{job.name}}
-              {{job.description}}
-              <input type="submit" value="Share" class="btn btn-default"/>
-            </form>
+          <form action="/employee/{{employee.id}}/job/{{job.id}}/share" method="POST">
+            {% csrf-field %}
+            <input type="submit" value="Share" class="btn btn-link"/>
+          </form>
         {% endif %}
-      {% endfor %}
-  </li>
-</ul>
+      </div>
+    </div>
+  {% endfor %}
 {% endfor %}
 
 {% endblock %}

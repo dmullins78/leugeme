@@ -14,6 +14,17 @@ INSERT INTO employee_follow
 (employee_id, user_id)
 VALUES (:employeeid, :userid)
 
+-- name: get-all-idol-jobs
+-- get all the jobs your idol shared
+SELECT j.*, e.id as employee, emp.name as employer, e.first_name, e.last_name
+from employee_follow ef
+inner join employees e on ef.employee_id = e.id
+inner join employee_employer ee on ee.employee_id = e.id
+inner join employers emp on ee.employer_id = emp.id
+inner join employee_jobs ej on ej.employee_id = ef.employee_id
+inner join jobs j on j.id = ej.job_id
+where user_id = :userid
+
 -- name: get-employee-jobs
 -- get all the jobs an employee has shared
 SELECT j.*, ej.share_date, emp.name as employer_name FROM jobs j

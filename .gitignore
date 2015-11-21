@@ -9,3 +9,7 @@ pom.xml
 profiles.clj
 /.env
 *.log
+ui/node_modules
+ui/css
+.css
+style.css

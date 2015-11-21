@@ -10,7 +10,6 @@
                  [markdown-clj "0.9.74"]
                  [environ "1.0.1"]
                  [compojure "1.4.0"]
-                 [ring-webjars "0.1.1"]
                  [ring/ring-defaults "0.1.5"]
                  [ring "1.4.0"
                   :exclusions [ring/ring-jetty-adapter]]

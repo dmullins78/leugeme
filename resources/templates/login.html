@@ -3,7 +3,6 @@
 {% if invalid %}
   <h2>Invalid Login</h2>
 {% endif %}
-
   <p>I log people in!</p>
   <form action="/login" method="post">
     {% csrf-field %}
